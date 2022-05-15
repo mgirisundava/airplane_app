@@ -8,8 +8,6 @@ import '../widgets/bottom_navigation_item.dart';
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
-  static const routeName = 'main-page';
-
   @override
   Widget build(BuildContext context) {
     Widget buildContent() {

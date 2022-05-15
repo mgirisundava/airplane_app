@@ -14,15 +14,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (context) => const SplashPage(),
-        GetStartedPage.routeName: (context) => const GetStartedPage(),
-        SignUpPage.routeName: (context) => const SignUpPage(),
-        BonusPage.routeName: (context) => const BonusPage(),
-        MainPage.routeName: (context) => const MainPage(),
-      },
+      home: SplashPage(),
     );
   }
 }

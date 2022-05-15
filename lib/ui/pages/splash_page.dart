@@ -4,6 +4,7 @@ import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
 import 'package:airplane_app/ui/pages/get_started_page.dart';
+import 'package:airplane_app/ui/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -17,8 +18,12 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, GetStartedPage.routeName, (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const GetStartedPage(),
+          ),
+          (route) => false);
     });
     super.initState();
   }

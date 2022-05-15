@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
-  static const routeName = 'sign-up';
-
   @override
   Widget build(BuildContext context) {
     Widget title() {
@@ -111,7 +109,12 @@ class SignUpPage extends StatelessWidget {
             ),
             PrimaryButton(
               onPressed: () {
-                Navigator.pushNamed(context, BonusPage.routeName);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BonusPage(),
+                  ),
+                );
               },
               width: double.infinity,
               height: 55,

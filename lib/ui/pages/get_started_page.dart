@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({Key? key}) : super(key: key);
 
-  static const routeName = 'get-started';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +54,12 @@ class GetStartedPage extends StatelessWidget {
                 ),
                 PrimaryButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, SignUpPage.routeName);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignUpPage(),
+                      ),
+                    );
                   },
                   width: 220,
                   height: 55,

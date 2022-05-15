@@ -9,12 +9,8 @@ import '../../core/colors.dart';
 class BonusPage extends StatelessWidget {
   const BonusPage({Key? key}) : super(key: key);
 
-  static const routeName = 'bonus-page';
-
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     Widget bonusCard() {
       return Container(
         padding: const EdgeInsets.all(24),
@@ -122,7 +118,7 @@ class BonusPage extends StatelessWidget {
           top: 80,
           bottom: 10,
         ),
-        width: size.width,
+        width: double.infinity,
         child: Center(
           child: Text(
             'Big Bonus 🎉',
@@ -137,7 +133,7 @@ class BonusPage extends StatelessWidget {
 
     Widget subtitle() {
       return SizedBox(
-        width: size.width,
+        width: double.infinity,
         child: Center(
           child: Text(
             'We give you early credit so that\nyou can buy a flight ticket',
@@ -170,7 +166,12 @@ class BonusPage extends StatelessWidget {
                 ),
                 PrimaryButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, MainPage.routeName);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MainPage(),
+                      ),
+                    );
                   },
                   width: 220,
                   height: 55,
