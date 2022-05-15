@@ -10,6 +10,9 @@ class TEXTSTYLES {
   static TextStyle blackTextStyle =
       GoogleFonts.poppins(color: COLORS.blackColor);
   static TextStyle greyTextStyle = GoogleFonts.poppins(color: COLORS.greyColor);
+  static TextStyle greenTextStyle =
+      GoogleFonts.poppins(color: COLORS.greenColor);
+  static TextStyle redTextStyle = GoogleFonts.poppins(color: COLORS.redColor);
 }
 
 class FONTWEIGHT {

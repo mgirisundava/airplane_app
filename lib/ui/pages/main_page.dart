@@ -12,8 +12,6 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     Widget buildContent() {
       return const HomePage();
     }
@@ -27,7 +25,7 @@ class MainPage extends StatelessWidget {
               horizontal: 24,
               vertical: 30,
             ),
-            width: size.width,
+            width: double.infinity,
             height: 60,
             decoration: BoxDecoration(
               color: COLORS.whiteColor,

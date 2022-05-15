@@ -12,8 +12,6 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     Widget title() {
       return SafeArea(
         child: Container(
@@ -23,7 +21,7 @@ class SignUpPage extends StatelessWidget {
             right: 24,
             bottom: 30,
           ),
-          width: size.width,
+          width: double.infinity,
           child: Text(
             'Join us and get\nyour next journey',
             style: TEXTSTYLES.blackTextStyle.copyWith(
@@ -71,7 +69,7 @@ class SignUpPage extends StatelessWidget {
       Widget tacButton() {
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 50),
-          width: size.width,
+          width: double.infinity,
           child: Center(
             child: Text(
               'Term and Condition',
@@ -91,7 +89,7 @@ class SignUpPage extends StatelessWidget {
           vertical: 30,
           horizontal: 20,
         ),
-        width: size.width,
+        width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -115,7 +113,7 @@ class SignUpPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, BonusPage.routeName);
               },
-              width: size.width,
+              width: double.infinity,
               height: 55,
               title: 'Get Started',
             ),

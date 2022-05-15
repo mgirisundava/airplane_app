@@ -9,8 +9,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     Widget header() {
       return Container(
         padding: const EdgeInsets.symmetric(
@@ -114,7 +112,7 @@ class HomePage extends StatelessWidget {
           top: 30,
           bottom: 100,
         ),
-        width: size.width,
+        width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

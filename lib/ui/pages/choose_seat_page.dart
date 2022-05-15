@@ -1,5 +1,6 @@
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
+import 'package:airplane_app/ui/pages/checkout_page.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:airplane_app/ui/widgets/seat_item.dart';
 import 'package:flutter/material.dart';
@@ -345,7 +346,14 @@ class ChooseSeatPage extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 30),
         child: PrimaryButton(
           title: 'Continue to Checkout',
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CheckoutPage(),
+              ),
+            );
+          },
         ),
       );
     }

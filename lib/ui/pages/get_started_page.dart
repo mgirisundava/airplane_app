@@ -12,14 +12,13 @@ class GetStartedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: COLORS.bgColor,
       body: Stack(
         children: [
           Container(
-            width: size.width,
-            height: size.height,
+            width: double.infinity,
+            height: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(IMAGES.getStartedImage),
@@ -28,8 +27,8 @@ class GetStartedPage extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: size.width,
-            height: size.height,
+            width: double.infinity,
+            height: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,

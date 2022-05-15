@@ -12,11 +12,9 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     Widget backgroundImage() {
       return Container(
-        width: size.width,
+        width: double.infinity,
         height: 450,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -30,7 +28,7 @@ class DetailPage extends StatelessWidget {
     Widget customShadow() {
       return Container(
         margin: const EdgeInsets.only(top: 236),
-        width: size.width,
+        width: double.infinity,
         height: 214,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -117,7 +115,7 @@ class DetailPage extends StatelessWidget {
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -134,7 +132,7 @@ class DetailPage extends StatelessWidget {
                   horizontal: 20,
                   vertical: 30,
                 ),
-                width: size.width,
+                width: double.infinity,
                 decoration: BoxDecoration(
                   color: COLORS.whiteColor,
                   borderRadius: BorderRadius.circular(18),
