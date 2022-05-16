@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/colors.dart';
+import '../../cubit/page/page_cubit.dart';
 
 class BottomNavigationItem extends StatelessWidget {
+  final int index;
   final String image;
   final bool isSelected;
 
@@ -10,27 +13,36 @@ class BottomNavigationItem extends StatelessWidget {
     Key? key,
     required this.image,
     this.isSelected = false,
+    required this.index,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const SizedBox(),
-        SizedBox(
-          width: 24,
-          height: 24,
-          child: Image.asset(image),
-        ),
-        Container(
-          width: 30,
-          height: 2,
-          color: isSelected == true
-              ? COLORS.primaryColor
-              : COLORS.transparentColor,
-        )
-      ],
+    return GestureDetector(
+      onTap: () {
+        context.read<PageCubit>().setPage(index);
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const SizedBox(),
+          Image.asset(
+            image,
+            width: 24,
+            height: 24,
+            color: context.read<PageCubit>().state == index
+                ? COLORS.primaryColor
+                : COLORS.greyColor,
+          ),
+          Container(
+            width: 30,
+            height: 2,
+            color: context.read<PageCubit>().state == index
+                ? COLORS.primaryColor
+                : COLORS.transparentColor,
+          )
+        ],
+      ),
     );
   }
 }

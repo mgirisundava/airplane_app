@@ -21,7 +21,7 @@ class IMAGES {
   static String sydneyOperaImage = 'assets/images/sydney_opera_image.png';
   static String userProfile = 'assets/images/user_profile.png';
   static String wellBookedIllustration =
-      'assets/images/well_booked_illustration';
+      'assets/images/well_booked_illustration.png';
   static String whiteHouseImage = 'assets/images/white_house_image.png';
   static String selectedGlobeIcon = 'assets/images/selected_globe_icon.png';
   static String availableIcon = 'assets/images/available_icon.png';

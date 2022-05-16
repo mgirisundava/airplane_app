@@ -1,4 +1,5 @@
 import 'package:airplane_app/core/fonts.dart';
+import 'package:airplane_app/ui/pages/booked_page.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 
@@ -325,7 +326,14 @@ class CheckoutPage extends StatelessWidget {
 
             PrimaryButton(
               title: 'Pay Now',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BookedPage(),
+                  ),
+                );
+              },
             ),
             const SizedBox(
               height: 30,
