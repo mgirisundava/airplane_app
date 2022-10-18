@@ -1,15 +1,19 @@
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
+import 'package:airplane_app/cubit/page/auth/auth_cubit.dart';
 import 'package:airplane_app/ui/widgets/destination_card.dart';
 import 'package:airplane_app/ui/widgets/destination_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../models/user_model.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Widget header() {
+    Widget header(UserModel userData) {
       return Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 24,
@@ -22,7 +26,7 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Howdy,\nMohamad Giri Sundava AFhdsbfhsdbh',
+                    'Howdy,\n${userData.name ?? ''}',
                     style: TEXTSTYLES.blackTextStyle.copyWith(
                       fontSize: 24,
                       fontWeight: FONTWEIGHT.semiBold,
@@ -161,12 +165,24 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    return ListView(
-      children: [
-        header(),
-        popularDestinations(),
-        newDestination(),
-      ],
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, auth) {
+        if (auth is AuthSuccess) {
+          var userData = auth.user;
+
+          return ListView(
+            children: [
+              header(userData),
+              popularDestinations(),
+              newDestination(),
+            ],
+          );
+        } else if (auth is AuthFailed) {
+          return Center(child: Text(auth.error));
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }

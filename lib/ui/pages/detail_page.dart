@@ -70,7 +70,7 @@ class DetailPage extends StatelessWidget {
               // NOTE : TITLE
 
               Container(
-                margin: const EdgeInsets.only(top: 256),
+                margin: const EdgeInsets.only(top: 230),
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
                   children: [
@@ -271,11 +271,13 @@ class DetailPage extends StatelessWidget {
     }
 
     return Scaffold(
-      body: Stack(children: [
-        backgroundImage(),
-        customShadow(),
-        content(),
-      ]),
+      body: Stack(
+        children: [
+          backgroundImage(),
+          customShadow(),
+          content(),
+        ],
+      ),
     );
   }
 }

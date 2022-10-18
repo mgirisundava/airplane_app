@@ -1,7 +1,6 @@
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
-import 'package:airplane_app/ui/pages/sign_up_page.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 
@@ -54,12 +53,7 @@ class GetStartedPage extends StatelessWidget {
                 ),
                 PrimaryButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignUpPage(),
-                      ),
-                    );
+                    Navigator.pushNamed(context, '/auth');
                   },
                   width: 220,
                   height: 55,

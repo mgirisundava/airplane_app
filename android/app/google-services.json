@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "909078645955",
+    "project_id": "airplane-aa56d",
+    "storage_bucket": "airplane-aa56d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909078645955:android:00f4111201fac9f227a676",
+        "android_client_info": {
+          "package_name": "com.sundava.airplane"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909078645955-q2v3b02m96plilq8c7j9f7q8qtr6ej09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsaEjIdHAJLxRzbfVEliC8oFK-lSlWRZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909078645955-q2v3b02m96plilq8c7j9f7q8qtr6ej09.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

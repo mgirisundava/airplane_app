@@ -6,11 +6,14 @@ import '../../core/fonts.dart';
 class CustomTextFormField extends StatelessWidget {
   final String title, hintText;
   final bool isObsecure;
+  final TextEditingController controller;
+
   const CustomTextFormField({
     Key? key,
     required this.title,
     required this.hintText,
     this.isObsecure = false,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -26,6 +29,7 @@ class CustomTextFormField extends StatelessWidget {
           height: 6,
         ),
         TextFormField(
+          controller: controller,
           obscureText: isObsecure,
           cursorColor: COLORS.blackColor,
           decoration: InputDecoration(

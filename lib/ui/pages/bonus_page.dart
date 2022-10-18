@@ -1,8 +1,9 @@
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
-import 'package:airplane_app/ui/pages/main_page.dart';
+import 'package:airplane_app/cubit/page/auth/auth_cubit.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/colors.dart';
 
@@ -44,14 +45,32 @@ class BonusPage extends StatelessWidget {
                           fontWeight: FONTWEIGHT.light,
                         ),
                       ),
-                      Text(
-                        'Mohamad Giri Sundava',
-                        style: TEXTSTYLES.whiteTextStyle.copyWith(
-                          fontSize: 20,
-                          fontWeight: FONTWEIGHT.medium,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      BlocBuilder<AuthCubit, AuthState>(
+                        builder: (context, user) {
+                          if (user is AuthSuccess) {
+                            return Text(
+                              user.user.name ?? '',
+                              style: TEXTSTYLES.whiteTextStyle.copyWith(
+                                fontSize: 20,
+                                fontWeight: FONTWEIGHT.medium,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            );
+                          } else if (user is AuthFailed) {
+                            return const SizedBox();
+                          } else {
+                            return Text(
+                              '...',
+                              style: TEXTSTYLES.whiteTextStyle.copyWith(
+                                fontSize: 20,
+                                fontWeight: FONTWEIGHT.medium,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -83,7 +102,7 @@ class BonusPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
             const Spacer(),
@@ -97,7 +116,7 @@ class BonusPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'IDR 280.000.000',
+                  'IDR 28.000.000',
                   style: TEXTSTYLES.whiteTextStyle.copyWith(
                     fontSize: 26,
                     fontWeight: FONTWEIGHT.medium,
@@ -166,12 +185,8 @@ class BonusPage extends StatelessWidget {
                 ),
                 PrimaryButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MainPage(),
-                      ),
-                    );
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/main', (route) => false);
                   },
                   width: 220,
                   height: 55,

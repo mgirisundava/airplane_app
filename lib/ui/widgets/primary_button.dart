@@ -18,7 +18,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width,
+      width: width, 
       height: height,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
