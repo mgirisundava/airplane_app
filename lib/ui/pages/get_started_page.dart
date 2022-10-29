@@ -31,7 +31,7 @@ class GetStartedPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'Fly Like a Bird',
+                  'Terbang Bebas',
                   style: TEXTSTYLES.whiteTextStyle.copyWith(
                     fontSize: 32,
                     fontWeight: FONTWEIGHT.semiBold,
@@ -41,7 +41,7 @@ class GetStartedPage extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  'Explore new world with us and let\nyourself get an amazing experiences',
+                  'Jelajahi dunia baru bersama kami\nuntuk pengalaman yang menakjubkan!',
                   style: TEXTSTYLES.whiteTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: FONTWEIGHT.light,
@@ -57,7 +57,7 @@ class GetStartedPage extends StatelessWidget {
                   },
                   width: 220,
                   height: 55,
-                  title: 'Get Started',
+                  title: 'Mulai',
                 ),
                 const SizedBox(
                   height: 80,

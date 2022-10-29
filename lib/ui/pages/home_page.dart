@@ -1,6 +1,8 @@
+import 'package:airplane_app/behavior/remove_scroll_glow.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
-import 'package:airplane_app/cubit/page/auth/auth_cubit.dart';
+import 'package:airplane_app/cubit/auth/auth_cubit.dart';
+import 'package:airplane_app/cubit/destinations/destination_cubit.dart';
 import 'package:airplane_app/ui/widgets/destination_card.dart';
 import 'package:airplane_app/ui/widgets/destination_tile.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +10,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../models/user_model.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<DestinationCubit>().getDestinations();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +39,7 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Howdy,\n${userData.name ?? ''}',
+                    'Halo,\n${userData.name ?? ''}',
                     style: TEXTSTYLES.blackTextStyle.copyWith(
                       fontSize: 24,
                       fontWeight: FONTWEIGHT.semiBold,
@@ -38,7 +51,7 @@ class HomePage extends StatelessWidget {
                     height: 6,
                   ),
                   Text(
-                    'Where to fly today?',
+                    'Mau terbang kemana hari ini?',
                     style: TEXTSTYLES.greyTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: FONTWEIGHT.light,
@@ -47,64 +60,64 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              width: 30,
-            ),
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                image: DecorationImage(
-                  image: AssetImage(IMAGES.userProfile),
-                ),
-              ),
-            )
           ],
         ),
       );
     }
 
     Widget popularDestinations() {
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            DestinationCard(
-              image: IMAGES.lakeCiliwungImage,
-              title: 'Lake Ciliwung',
-              subtitle: 'Tangerang',
-              rating: 4.8,
-            ),
-            DestinationCard(
-              image: IMAGES.whiteHouseImage,
-              title: 'White House',
-              subtitle: 'Spain',
-              rating: 4.7,
-            ),
-            DestinationCard(
-              image: IMAGES.hillHeyoImage,
-              title: 'Hill Heyo',
-              subtitle: 'Monaco',
-              rating: 4.8,
-            ),
-            DestinationCard(
-              image: IMAGES.menarraImage,
-              title: 'Menarra',
-              subtitle: 'Japan',
-              rating: 5.0,
-            ),
-            DestinationCard(
-              image: IMAGES.payungTeduhImage,
-              title: 'Payung Teduh',
-              subtitle: 'Singapore',
-              rating: 4.8,
-            ),
-            const SizedBox(
-              width: 24,
-            ),
-          ],
-        ),
+      return BlocBuilder<DestinationCubit, DestinationState>(
+        builder: (context, destinations) {
+          if (destinations is DestinationSuccess) {
+            var data = destinations.destinations;
+
+            return SizedBox(
+              height: 323,
+              child: ScrollConfiguration(
+                behavior: RemoveScrollGlow(),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) => Container(
+                    padding: EdgeInsets.only(left: index == 0 ? 24 : 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/detail_destination',
+                          arguments: data[index],
+                        );
+                      },
+                      child: DestinationCard(
+                        image: data[index].imageUrl,
+                        title: data[index].name,
+                        subtitle: data[index].from,
+                        rating: data[index].rating,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else if (destinations is DestinationFailed) {
+            return SizedBox(
+              height: 323,
+              child: Center(
+                child: Text(
+                  destinations.error,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          } else {
+            return const SizedBox(
+              height: 323,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
       );
     }
 
@@ -170,12 +183,17 @@ class HomePage extends StatelessWidget {
         if (auth is AuthSuccess) {
           var userData = auth.user;
 
-          return ListView(
-            children: [
-              header(userData),
-              popularDestinations(),
-              newDestination(),
-            ],
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<DestinationCubit>().getDestinations();
+            },
+            child: ListView(
+              children: [
+                header(userData),
+                popularDestinations(),
+                newDestination(),
+              ],
+            ),
           );
         } else if (auth is AuthFailed) {
           return Center(child: Text(auth.error));

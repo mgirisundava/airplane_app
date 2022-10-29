@@ -1,6 +1,6 @@
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/images.dart';
-import 'package:airplane_app/cubit/page/page_cubit.dart';
+import 'package:airplane_app/page/page_cubit.dart';
 import 'package:airplane_app/ui/pages/home_page.dart';
 import 'package:airplane_app/ui/pages/setting_page.dart';
 import 'package:airplane_app/ui/pages/transaction_page.dart';

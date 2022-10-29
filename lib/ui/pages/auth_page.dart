@@ -1,6 +1,6 @@
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
-import 'package:airplane_app/cubit/page/auth/auth_cubit.dart';
+import 'package:airplane_app/cubit/auth/auth_cubit.dart';
 import 'package:airplane_app/ui/widgets/custom_text_form_field.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +36,8 @@ class _AuthPageState extends State<AuthPage> {
           width: double.infinity,
           child: Text(
             isSignIn == false
-                ? 'Join us and get\nyour next journey'
-                : 'Sign in with\nyour existing account',
+                ? 'Lanjutkan petualanganmu\nbersama kami!'
+                : 'Masuk dengan\nakun yang sudah ada',
             style: TEXTSTYLES.blackTextStyle.copyWith(
               fontSize: 24,
               fontWeight: FONTWEIGHT.semiBold,
@@ -50,8 +50,8 @@ class _AuthPageState extends State<AuthPage> {
     Widget inputSection() {
       Widget nameInput() {
         return CustomTextFormField(
-          title: 'Full Name',
-          hintText: 'Your Full Name',
+          title: 'Nama Lengkap',
+          hintText: 'Tony Stark',
           isObsecure: false,
           controller: _nameController,
         );
@@ -59,8 +59,8 @@ class _AuthPageState extends State<AuthPage> {
 
       Widget emailInput() {
         return CustomTextFormField(
-          title: 'Email Address',
-          hintText: 'Your Email Address',
+          title: 'Alamat Email',
+          hintText: 'example@mail.com',
           isObsecure: false,
           controller: _emailController,
         );
@@ -69,7 +69,7 @@ class _AuthPageState extends State<AuthPage> {
       Widget passwordInput() {
         return CustomTextFormField(
           title: 'Password',
-          hintText: 'Your Password',
+          hintText: '********',
           isObsecure: true,
           controller: _passController,
         );
@@ -78,7 +78,7 @@ class _AuthPageState extends State<AuthPage> {
       Widget hobbyInput() {
         return CustomTextFormField(
           title: 'Hobby',
-          hintText: 'Your Hobby',
+          hintText: 'Melukis, Olahraga, dll.',
           isObsecure: false,
           controller: _hobbyController,
         );
@@ -97,8 +97,8 @@ class _AuthPageState extends State<AuthPage> {
             child: Center(
               child: Text(
                 isSignIn == false
-                    ? 'Have an account? Sign in'
-                    : 'Don\'t have an account? Sign in',
+                    ? 'Sudah punya akun? Masuk'
+                    : 'Belum punya akun? Daftar',
                 style: TEXTSTYLES.greyTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: FONTWEIGHT.light,
@@ -180,7 +180,7 @@ class _AuthPageState extends State<AuthPage> {
                     },
                     width: double.infinity,
                     height: 55,
-                    title: isSignIn == false ? 'Get Started' : 'Sign In',
+                    title: isSignIn == false ? 'Daftar' : 'Masuk',
                   );
                 }
               },

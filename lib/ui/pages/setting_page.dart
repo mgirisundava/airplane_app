@@ -1,10 +1,10 @@
 import 'package:airplane_app/core/colors.dart';
+import 'package:airplane_app/cubit/auth/auth_cubit.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubit/page/auth/auth_cubit.dart';
-import '../../cubit/page/page_cubit.dart';
+import '../../page/page_cubit.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -40,7 +40,7 @@ class SettingPage extends StatelessWidget {
                 );
               } else {
                 return PrimaryButton(
-                  title: 'Sign Out',
+                  title: 'Keluar',
                   width: 220,
                   onPressed: () {
                     context.read<AuthCubit>().signOut();

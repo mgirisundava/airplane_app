@@ -1,6 +1,6 @@
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
-import 'package:airplane_app/cubit/page/auth/auth_cubit.dart';
+import 'package:airplane_app/cubit/auth/auth_cubit.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

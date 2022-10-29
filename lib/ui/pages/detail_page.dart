@@ -1,24 +1,28 @@
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
+import 'package:airplane_app/models/destination_model.dart';
 import 'package:airplane_app/ui/pages/choose_seat_page.dart';
-import 'package:airplane_app/ui/widgets/interest_item.dart';
 import 'package:airplane_app/ui/widgets/photo_item.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var detailData =
+        ModalRoute.of(context)!.settings.arguments as DestinationModel;
+
     Widget backgroundImage() {
       return Container(
         width: double.infinity,
         height: 450,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(IMAGES.lakeCiliwungImage),
+            image: NetworkImage(detailData.imageUrl),
             fit: BoxFit.cover,
           ),
         ),
@@ -78,7 +82,7 @@ class DetailPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Lake Ciliwung',
+                          detailData.name,
                           style: TEXTSTYLES.whiteTextStyle.copyWith(
                             fontSize: 24,
                             fontWeight: FONTWEIGHT.semiBold,
@@ -87,7 +91,7 @@ class DetailPage extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          'Tangerang',
+                          detailData.from,
                           style: TEXTSTYLES.whiteTextStyle.copyWith(
                             fontSize: 16,
                             fontWeight: FONTWEIGHT.light,
@@ -109,7 +113,7 @@ class DetailPage extends StatelessWidget {
                           width: 1,
                         ),
                         Text(
-                          '4.8',
+                          detailData.rating.toString(),
                           style: TEXTSTYLES.whiteTextStyle.copyWith(
                             fontWeight: FONTWEIGHT.medium,
                           ),
@@ -143,7 +147,7 @@ class DetailPage extends StatelessWidget {
                     // NOTE : ABOUT
 
                     Text(
-                      'About',
+                      'Tentang',
                       style: TEXTSTYLES.blackTextStyle.copyWith(
                         fontSize: 16,
                         fontWeight: FONTWEIGHT.semiBold,
@@ -153,7 +157,7 @@ class DetailPage extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      'Berada di jalur jalan provinsi yang menghubungkan Denpasar Singaraja serta letaknya yang dekat dengan Kebun Raya Eka Karya menjadikan tempat Bali.',
+                      detailData.about,
                       style: TEXTSTYLES.blackTextStyle.copyWith(height: 2.6),
                     ),
                     const SizedBox(
@@ -163,7 +167,7 @@ class DetailPage extends StatelessWidget {
                     // NOTE : PHOTOS
 
                     Text(
-                      'Photos',
+                      'Foto',
                       style: TEXTSTYLES.blackTextStyle.copyWith(
                         fontSize: 16,
                         fontWeight: FONTWEIGHT.semiBold,
@@ -172,48 +176,41 @@ class DetailPage extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          PhotoItem(imageUrl: IMAGES.photo1),
-                          const SizedBox(width: 16),
-                          PhotoItem(imageUrl: IMAGES.photo2),
-                          const SizedBox(width: 16),
-                          PhotoItem(imageUrl: IMAGES.photo3),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                    // NOTE : PHOTOS
-
-                    Text(
-                      'Interests',
-                      style: TEXTSTYLES.blackTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: FONTWEIGHT.semiBold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        InterestItem(title: 'Kids Park'),
-                        InterestItem(title: 'Honor Bridge'),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: const [
-                        InterestItem(title: 'City Museum'),
-                        InterestItem(title: 'Central Mall'),
-                      ],
+                    SizedBox(
+                      height: 70,
+                      child: detailData.destinationPhotos!.isNotEmpty
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount:
+                                  detailData.destinationPhotos?.length ?? 0,
+                              itemBuilder: (context, index) => Container(
+                                margin: EdgeInsets.only(
+                                  left: index == 0 ? 0 : 16,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      '/photo',
+                                      arguments: detailData
+                                              .destinationPhotos?[index] ??
+                                          '',
+                                    );
+                                  },
+                                  child: PhotoItem(
+                                    imageUrl:
+                                        detailData.destinationPhotos?[index] ??
+                                            '',
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const Center(
+                              child: Text(
+                                'Belum ada foto',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                     ),
                   ],
                 ),
@@ -232,7 +229,13 @@ class DetailPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'IDR 2.500.000',
+                          NumberFormat.currency(
+                            locale: 'ID',
+                            symbol: 'Rp. ',
+                            decimalDigits: 0,
+                          ).format(
+                            detailData.price,
+                          ),
                           style: TEXTSTYLES.blackTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: FONTWEIGHT.medium,
@@ -242,7 +245,7 @@ class DetailPage extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          'per orang',
+                          'per-orang',
                           style: TEXTSTYLES.greyTextStyle.copyWith(
                             fontWeight: FONTWEIGHT.light,
                           ),
@@ -250,7 +253,7 @@ class DetailPage extends StatelessWidget {
                       ],
                     ),
                     PrimaryButton(
-                      title: 'Book Now',
+                      title: 'Pesan',
                       width: 170,
                       onPressed: () {
                         Navigator.push(

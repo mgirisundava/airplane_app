@@ -24,7 +24,7 @@ class UserService {
   Future<UserModel> getUserById({required String id}) async {
     try {
       DocumentSnapshot snapshot = await _userReference.doc(id).get();
-      return UserModel(
+      return UserModel( 
         id: id,
         name: snapshot['name'],
         email: snapshot['email'],

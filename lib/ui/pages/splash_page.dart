@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
-import 'package:airplane_app/cubit/page/auth/auth_cubit.dart';
+import 'package:airplane_app/cubit/auth/auth_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

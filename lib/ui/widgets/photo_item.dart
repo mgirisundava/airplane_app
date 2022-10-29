@@ -17,7 +17,7 @@ class PhotoItem extends StatelessWidget {
           Radius.circular(18),
         ),
         image: DecorationImage(
-          image: AssetImage(imageUrl),
+          image: NetworkImage(imageUrl),
           fit: BoxFit.cover,
         ),
       ),
