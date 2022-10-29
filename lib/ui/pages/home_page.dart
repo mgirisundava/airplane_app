@@ -1,8 +1,8 @@
 import 'package:airplane_app/behavior/remove_scroll_glow.dart';
 import 'package:airplane_app/core/fonts.dart';
-import 'package:airplane_app/core/images.dart';
 import 'package:airplane_app/cubit/auth/auth_cubit.dart';
 import 'package:airplane_app/cubit/destinations/destination_cubit.dart';
+import 'package:airplane_app/cubit/new_destinations/new_destination_cubit.dart';
 import 'package:airplane_app/ui/widgets/destination_card.dart';
 import 'package:airplane_app/ui/widgets/destination_tile.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<DestinationCubit>().getDestinations();
+    context.read<NewDestinationCubit>().getNewDestinations();
   }
 
   @override
@@ -134,7 +135,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'New This Year',
+              'Destinasi Terbaru',
               style: TEXTSTYLES.blackTextStyle.copyWith(
                 fontSize: 18,
                 fontWeight: FONTWEIGHT.semiBold,
@@ -143,36 +144,47 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 16,
             ),
-            DestinationTile(
-              image: IMAGES.danauBeratanImage,
-              title: 'Danau Beratan',
-              subtitle: 'Singaraja',
-              rating: 4.5,
-            ),
-            DestinationTile(
-              image: IMAGES.sydneyOperaImage,
-              title: 'Sydney Opera',
-              subtitle: 'Australia',
-              rating: 4.7,
-            ),
-            DestinationTile(
-              image: IMAGES.romaImage,
-              title: 'Roma',
-              subtitle: 'Italy',
-              rating: 4.8,
-            ),
-            DestinationTile(
-              image: IMAGES.payungTeduhImage,
-              title: 'Payung Teduh',
-              subtitle: 'Singapore',
-              rating: 4.5,
-            ),
-            DestinationTile(
-              image: IMAGES.hillHeyoImage,
-              title: 'Hill Heyo',
-              subtitle: 'Monaco',
-              rating: 4.7,
-            ),
+            BlocBuilder<NewDestinationCubit, NewDestinationState>(
+              builder: (context, newDestination) {
+                if (newDestination is NewDestinationSuccess) {
+                  var data = newDestination.newDestinations;
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 1,
+                      itemBuilder: (context, index) => GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/detail_destination',
+                                arguments: data[index],
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(top: index == 0 ? 0 : 16),
+                              child: DestinationTile(
+                                image: data[index].imageUrl,
+                                title: data[index].name,
+                                subtitle: data[index].from,
+                                rating: data[index].rating,
+                              ),
+                            ),
+                          ));
+                } else if (newDestination is NewDestinationFailed) {
+                  return SizedBox(
+                    height: 90,
+                    child: Text(newDestination.error),
+                  );
+                } else {
+                  return const SizedBox(
+                    height: 90,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              },
+            )
           ],
         ),
       );
@@ -186,6 +198,7 @@ class _HomePageState extends State<HomePage> {
           return RefreshIndicator(
             onRefresh: () async {
               context.read<DestinationCubit>().getDestinations();
+              context.read<NewDestinationCubit>().getNewDestinations();
             },
             child: ListView(
               children: [

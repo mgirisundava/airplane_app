@@ -1,3 +1,4 @@
+import 'package:airplane_app/behavior/remove_scroll_glow.dart';
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
@@ -48,8 +49,7 @@ class DetailPage extends StatelessWidget {
     }
 
     Widget content() {
-      return Container(
-        margin: const EdgeInsets.only(top: 30),
+      return SizedBox(
         width: double.infinity,
         child: SingleChildScrollView(
           child: Column(
@@ -60,6 +60,7 @@ class DetailPage extends StatelessWidget {
               SafeArea(
                 child: Center(
                   child: Container(
+                    margin: const EdgeInsets.only(top: 30),
                     width: 108,
                     height: 24,
                     decoration: BoxDecoration(
@@ -179,28 +180,31 @@ class DetailPage extends StatelessWidget {
                     SizedBox(
                       height: 70,
                       child: detailData.destinationPhotos!.isNotEmpty
-                          ? ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  detailData.destinationPhotos?.length ?? 0,
-                              itemBuilder: (context, index) => Container(
-                                margin: EdgeInsets.only(
-                                  left: index == 0 ? 0 : 16,
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      '/photo',
-                                      arguments: detailData
+                          ? ScrollConfiguration(
+                              behavior: RemoveScrollGlow(),
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    detailData.destinationPhotos?.length ?? 0,
+                                itemBuilder: (context, index) => Container(
+                                  margin: EdgeInsets.only(
+                                    left: index == 0 ? 0 : 16,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/photo',
+                                        arguments: detailData
+                                                .destinationPhotos?[index] ??
+                                            '',
+                                      );
+                                    },
+                                    child: PhotoItem(
+                                      imageUrl: detailData
                                               .destinationPhotos?[index] ??
                                           '',
-                                    );
-                                  },
-                                  child: PhotoItem(
-                                    imageUrl:
-                                        detailData.destinationPhotos?[index] ??
-                                            '',
+                                    ),
                                   ),
                                 ),
                               ),
