@@ -7,7 +7,7 @@ class NewDestinationService {
   final CollectionReference _destinationReference =
       FirebaseFirestore.instance.collection('new_destinations');
 
-  Future<List<DestinationModel>> getNewDestinations() async {
+  Future<List<DestinationModel>> getnewdestination() async {
     try {
       QuerySnapshot _res = await _destinationReference.get();
       List<DestinationModel> _destinations = _res.docs.map((e) {

@@ -12,12 +12,12 @@ class NewDestinationInitial extends NewDestinationState {}
 class NewDestinationLoading extends NewDestinationState {}
 
 class NewDestinationSuccess extends NewDestinationState {
-  final List<DestinationModel> newDestinations;
+  final List<DestinationModel> newDestination;
 
-  const NewDestinationSuccess(this.newDestinations);
+  const NewDestinationSuccess(this.newDestination);
 
   @override
-  List<Object> get props => [newDestinations];
+  List<Object> get props => [newDestination];
 }
 
 class NewDestinationFailed extends NewDestinationState {

@@ -1,7 +1,5 @@
-import 'package:airplane_app/cubit/auth/auth_cubit.dart';
-import 'package:airplane_app/cubit/destinations/destination_cubit.dart';
-import 'package:airplane_app/cubit/seat/seat_cubit.dart';
 import 'package:airplane_app/page/page_cubit.dart';
+import 'package:airplane_app/ui/pages/auth_page.dart';
 import 'package:airplane_app/ui/pages/bonus_page.dart';
 import 'package:airplane_app/ui/pages/booked_page.dart';
 import 'package:airplane_app/ui/pages/checkout_page.dart';
@@ -9,14 +7,17 @@ import 'package:airplane_app/ui/pages/choose_seat_page.dart';
 import 'package:airplane_app/ui/pages/detail_page.dart';
 import 'package:airplane_app/ui/pages/get_started_page.dart';
 import 'package:airplane_app/ui/pages/main_page.dart';
-import 'package:airplane_app/ui/pages/auth_page.dart';
 import 'package:airplane_app/ui/pages/photo_page.dart';
 import 'package:airplane_app/ui/pages/splash_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'cubit/newdestinations/new_destination_cubit.dart';
+import 'cubit/auth/auth_cubit.dart';
+import 'cubit/destination/destination_cubit.dart';
+import 'cubit/newdestination/new_destination_cubit.dart';
+import 'cubit/seat/seat_cubit.dart';
+import 'cubit/transaction/transaction_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => DestinationCubit()),
         BlocProvider(create: (context) => NewDestinationCubit()),
         BlocProvider(create: (context) => SeatCubit()),
+        BlocProvider(create: (context) => TransactionCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,12 +1,13 @@
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/cubit/seat/seat_cubit.dart';
-import 'package:airplane_app/ui/pages/transaction_page.dart';
+import 'package:airplane_app/ui/pages/main_page.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/images.dart';
+import '../../page/page_cubit.dart';
 
 class BookedPage extends StatelessWidget {
   const BookedPage({Key? key}) : super(key: key);
@@ -74,9 +75,10 @@ class BookedPage extends StatelessWidget {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const TransactionPage(),
+                        builder: (context) => const MainPage(),
                       ),
                       (route) => false);
+                  context.read<PageCubit>().setPage(1);
                   context.read<SeatCubit>().removeAllSeat();
                 },
               ),

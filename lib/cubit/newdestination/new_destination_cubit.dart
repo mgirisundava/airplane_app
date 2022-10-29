@@ -11,14 +11,14 @@ part 'new_destination_state.dart';
 class NewDestinationCubit extends Cubit<NewDestinationState> {
   NewDestinationCubit() : super(NewDestinationInitial());
 
-  Future<void> getNewDestinations() async {
+  Future<void> getnewdestination() async {
     try {
       emit(NewDestinationLoading());
 
-      List<DestinationModel> newDestinations =
-          await NewDestinationService().getNewDestinations();
+      List<DestinationModel> newdestination =
+          await NewDestinationService().getnewdestination();
 
-      emit(NewDestinationSuccess(newDestinations));
+      emit(NewDestinationSuccess(newdestination));
     } catch (e) {
       emit(NewDestinationFailed(e.toString()));
     }

@@ -1,6 +1,7 @@
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/cubit/auth/auth_cubit.dart';
 import 'package:airplane_app/cubit/seat/seat_cubit.dart';
+import 'package:airplane_app/cubit/transaction/transaction_cubit.dart';
 import 'package:airplane_app/models/transaction_model.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -387,7 +388,10 @@ class CheckoutPage extends StatelessWidget {
                     backgroundColor: COLORS.redColor,
                   ));
                 } else {
-                  Navigator.pushNamed(context, '/booked');
+                  context
+                      .read<TransactionCubit>()
+                      .createTransaction(transactionData);
+                  // Navigator.pushNamed(context, '/booked');
                 }
               },
             ),
@@ -415,16 +419,28 @@ class CheckoutPage extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      backgroundColor: COLORS.bgColor,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        children: [
-          route(),
-          bookingDetails(),
-          paymentDetails(),
-          button(),
-        ],
+    return BlocListener<TransactionCubit, TransactionState>(
+      listener: (context, transaction) {
+        if (transaction is TransactionSuccess) {
+          Navigator.pushNamed(context, '/booked');
+        } else if (transaction is TransactionFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(transaction.error),
+            backgroundColor: COLORS.redColor,
+          ));
+        }
+      },
+      child: Scaffold(
+        backgroundColor: COLORS.bgColor,
+        body: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          children: [
+            route(),
+            bookingDetails(),
+            paymentDetails(),
+            button(),
+          ],
+        ),
       ),
     );
   }

@@ -2,13 +2,13 @@ import 'package:airplane_app/behavior/remove_scroll_glow.dart';
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/cubit/auth/auth_cubit.dart';
-import 'package:airplane_app/cubit/destinations/destination_cubit.dart';
+import 'package:airplane_app/cubit/destination/destination_cubit.dart';
 import 'package:airplane_app/ui/widgets/destination_card.dart';
 import 'package:airplane_app/ui/widgets/destination_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubit/newdestinations/new_destination_cubit.dart';
+import '../../cubit/newdestination/new_destination_cubit.dart';
 import '../../models/user_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<DestinationCubit>().getDestinations();
-    context.read<NewDestinationCubit>().getNewDestinations();
+    context.read<NewDestinationCubit>().getnewdestination();
   }
 
   @override
@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
             BlocBuilder<NewDestinationCubit, NewDestinationState>(
               builder: (context, newDestination) {
                 if (newDestination is NewDestinationSuccess) {
-                  var data = newDestination.newDestinations;
+                  var data = newDestination.newDestination;
                   return ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> {
           return RefreshIndicator(
             onRefresh: () async {
               context.read<DestinationCubit>().getDestinations();
-              context.read<NewDestinationCubit>().getNewDestinations();
+              context.read<NewDestinationCubit>().getnewdestination();
             },
             color: COLORS.primaryColor,
             child: ListView(
