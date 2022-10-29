@@ -1,13 +1,14 @@
 import 'package:airplane_app/behavior/remove_scroll_glow.dart';
+import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/cubit/auth/auth_cubit.dart';
 import 'package:airplane_app/cubit/destinations/destination_cubit.dart';
-import 'package:airplane_app/cubit/new_destinations/new_destination_cubit.dart';
 import 'package:airplane_app/ui/widgets/destination_card.dart';
 import 'package:airplane_app/ui/widgets/destination_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../cubit/newdestinations/new_destination_cubit.dart';
 import '../../models/user_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                     height: 6,
                   ),
                   Text(
-                    'Mau terbang kemana hari ini?',
+                    'Mau terbang ke mana hari ini?',
                     style: TEXTSTYLES.greyTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: FONTWEIGHT.light,
@@ -111,10 +112,10 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           } else {
-            return const SizedBox(
+            return SizedBox(
               height: 323,
               child: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(color: COLORS.primaryColor),
               ),
             );
           }
@@ -176,10 +177,11 @@ class _HomePageState extends State<HomePage> {
                     child: Text(newDestination.error),
                   );
                 } else {
-                  return const SizedBox(
+                  return SizedBox(
                     height: 90,
                     child: Center(
-                      child: CircularProgressIndicator(),
+                      child:
+                          CircularProgressIndicator(color: COLORS.primaryColor),
                     ),
                   );
                 }
@@ -200,6 +202,7 @@ class _HomePageState extends State<HomePage> {
               context.read<DestinationCubit>().getDestinations();
               context.read<NewDestinationCubit>().getNewDestinations();
             },
+            color: COLORS.primaryColor,
             child: ListView(
               children: [
                 header(userData),
@@ -211,7 +214,9 @@ class _HomePageState extends State<HomePage> {
         } else if (auth is AuthFailed) {
           return Center(child: Text(auth.error));
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+            child: CircularProgressIndicator(color: COLORS.primaryColor),
+          );
         }
       },
     );

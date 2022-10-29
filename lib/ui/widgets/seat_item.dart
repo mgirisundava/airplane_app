@@ -1,76 +1,88 @@
-import 'package:airplane_app/core/fonts.dart';
+import 'package:airplane_app/cubit/seat/seat_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/colors.dart';
 
-class SeatItem extends StatelessWidget {
+class SeatItem extends StatefulWidget {
   // NOTE : 0. Available Color, 1. Selected Color, 2. Unavailable Color
 
   final int status;
+  final bool isAvailable;
+  final String id;
   const SeatItem({
     Key? key,
-    required this.status,
+    this.status = 0,
+    this.isAvailable = true,
+    required this.id,
   }) : super(key: key);
 
   @override
+  State<SeatItem> createState() => _SeatItemState();
+}
+
+class _SeatItemState extends State<SeatItem> {
+  @override
   Widget build(BuildContext context) {
+    var isSelected = context.watch<SeatCubit>().isSelected(widget.id);
+
     backgroundColor() {
-      switch (status) {
-        case 0:
-          return COLORS.availableColor;
-        case 1:
+      if (widget.isAvailable == false) {
+        return COLORS.unavailableColor;
+      } else {
+        if (isSelected) {
           return COLORS.primaryColor;
-        case 2:
-          return COLORS.unavailableColor;
-        default:
-          COLORS.unavailableColor;
+        } else {
+          return COLORS.availableColor;
+        }
       }
     }
 
     borderColor() {
-      switch (status) {
-        case 0:
+      switch (widget.isAvailable) {
+        case true:
           return COLORS.primaryColor;
-        case 1:
-          return COLORS.primaryColor;
-        case 2:
+        case false:
           return COLORS.unavailableColor;
+
         default:
-          COLORS.unavailableColor;
+          COLORS.availableColor;
       }
     }
 
     child() {
-      switch (status) {
-        case 0:
-          return const SizedBox();
-        case 1:
-          return Center(
-            child: Text(
-              'YOU',
-              style: TEXTSTYLES.whiteTextStyle
-                  .copyWith(fontWeight: FONTWEIGHT.semiBold),
-            ),
-          );
-        case 2:
-          return const SizedBox();
-        default:
-          const SizedBox();
+      if (!isSelected) {
+        return const SizedBox();
+      } else {
+        return Center(
+            child: Icon(
+          Icons.person,
+          color: COLORS.whiteColor,
+        ));
       }
     }
 
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        color: backgroundColor(),
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: borderColor()!,
+    return GestureDetector(
+      onTap: () {
+        if (widget.isAvailable == true) {
+          context.read<SeatCubit>().selectSeat(widget.id);
+        } else {
+          null;
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.only(top: 16),
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          color: backgroundColor(),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: borderColor()!,
+          ),
         ),
+        child: child(),
       ),
-      child: child(),
     );
   }
 }

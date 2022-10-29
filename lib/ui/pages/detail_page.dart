@@ -2,11 +2,12 @@ import 'package:airplane_app/behavior/remove_scroll_glow.dart';
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/core/images.dart';
+import 'package:airplane_app/cubit/seat/seat_cubit.dart';
 import 'package:airplane_app/models/destination_model.dart';
-import 'package:airplane_app/ui/pages/choose_seat_page.dart';
 import 'package:airplane_app/ui/widgets/photo_item.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class DetailPage extends StatelessWidget {
@@ -259,13 +260,15 @@ class DetailPage extends StatelessWidget {
                     PrimaryButton(
                       title: 'Pesan',
                       width: 170,
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+                        var res = await Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: ((context) => const ChooseSeatPage()),
-                          ),
+                          '/choose_seat',
+                          arguments: detailData.price,
                         );
+                        if (res == true) {
+                          context.read<SeatCubit>().removeAllSeat();
+                        }
                       },
                     ),
                   ],
