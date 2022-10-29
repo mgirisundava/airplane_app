@@ -264,7 +264,7 @@ class DetailPage extends StatelessWidget {
                         var res = await Navigator.pushNamed(
                           context,
                           '/choose_seat',
-                          arguments: detailData.price,
+                          arguments: detailData,
                         );
                         if (res == true) {
                           context.read<SeatCubit>().removeAllSeat();

@@ -7,12 +7,10 @@ import '../../core/colors.dart';
 class SeatItem extends StatefulWidget {
   // NOTE : 0. Available Color, 1. Selected Color, 2. Unavailable Color
 
-  final int status;
   final bool isAvailable;
   final String id;
   const SeatItem({
     Key? key,
-    this.status = 0,
     this.isAvailable = true,
     required this.id,
   }) : super(key: key);

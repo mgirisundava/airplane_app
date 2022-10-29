@@ -1,7 +1,8 @@
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/cubit/seat/seat_cubit.dart';
-import 'package:airplane_app/ui/pages/checkout_page.dart';
+import 'package:airplane_app/models/destination_model.dart';
+import 'package:airplane_app/models/transaction_model.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:airplane_app/ui/widgets/seat_item.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,8 @@ class ChooseSeatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var seatPrice = ModalRoute.of(context)!.settings.arguments as int;
+    var destination =
+        ModalRoute.of(context)!.settings.arguments as DestinationModel;
 
     Widget title() {
       return SafeArea(
@@ -394,7 +396,7 @@ class ChooseSeatPage extends StatelessWidget {
                             symbol: 'Rp. ',
                             decimalDigits: 0,
                           ).format(
-                            seat.length * seatPrice,
+                            seat.length * destination.price,
                           ),
                           style: TEXTSTYLES.primarytextStyle.copyWith(
                             fontWeight: FONTWEIGHT.semiBold,
@@ -413,19 +415,48 @@ class ChooseSeatPage extends StatelessWidget {
     }
 
     Widget checkoutButton() {
-      return Container(
-        margin: const EdgeInsets.symmetric(vertical: 30),
-        child: PrimaryButton(
-          title: 'Pesan Sekarang',
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CheckoutPage(),
-              ),
-            );
-          },
-        ),
+      return Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 30),
+            child: BlocBuilder<SeatCubit, List<String>>(
+              builder: (context, seat) {
+                int price = seat.length * destination.price;
+                double vat = 0.45;
+                return PrimaryButton(
+                  title: 'Pesan Sekarang',
+                  onPressed: () {
+                    if (seat.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            const Text('Harap pilih kursi terlebih dahulu!'),
+                        backgroundColor: COLORS.redColor,
+                      ));
+                    } else {
+                      Navigator.pushNamed(
+                        context,
+                        '/checkout',
+                        arguments: TransactionModel(
+                          destination: destination,
+                          amountOfTraveler: seat.length,
+                          seat: seat.join(', '),
+                          insurance: true,
+                          refundable: false,
+                          vat: 0.45,
+                          price: price,
+                          grandTotal: price + (price * vat).toInt(),
+                        ),
+                      );
+                    }
+                  },
+                );
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+        ],
       );
     }
 

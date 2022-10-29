@@ -1,7 +1,11 @@
 import 'package:airplane_app/core/fonts.dart';
-import 'package:airplane_app/ui/pages/booked_page.dart';
+import 'package:airplane_app/cubit/auth/auth_cubit.dart';
+import 'package:airplane_app/cubit/seat/seat_cubit.dart';
+import 'package:airplane_app/models/transaction_model.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/colors.dart';
 import '../../core/images.dart';
@@ -11,6 +15,10 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var transactionData =
+        ModalRoute.of(context)!.settings.arguments as TransactionModel;
+    int? currentBalance;
+
     Widget route() {
       return SafeArea(
         child: Container(
@@ -36,14 +44,14 @@ class CheckoutPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'CGK',
+                          'MULAI',
                           style: TEXTSTYLES.blackTextStyle.copyWith(
                             fontSize: 24,
                             fontWeight: FONTWEIGHT.semiBold,
                           ),
                         ),
                         Text(
-                          'Tangerang',
+                          'Posisi Anda',
                           style: TEXTSTYLES.greyTextStyle.copyWith(
                             fontWeight: FONTWEIGHT.light,
                           ),
@@ -54,14 +62,14 @@ class CheckoutPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'TLC',
+                          'AKHIR',
                           style: TEXTSTYLES.blackTextStyle.copyWith(
                             fontSize: 24,
                             fontWeight: FONTWEIGHT.semiBold,
                           ),
                         ),
                         Text(
-                          'Ciliwung',
+                          transactionData.destination.name,
                           style: TEXTSTYLES.greyTextStyle.copyWith(
                             fontWeight: FONTWEIGHT.light,
                           ),
@@ -102,7 +110,7 @@ class CheckoutPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
                     image: DecorationImage(
-                      image: AssetImage(IMAGES.lakeCiliwungImage),
+                      image: NetworkImage(transactionData.destination.imageUrl),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -114,7 +122,7 @@ class CheckoutPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Lake Ciliwung',
+                      transactionData.destination.name,
                       style: TEXTSTYLES.blackTextStyle.copyWith(
                         fontSize: 18,
                         fontWeight: FONTWEIGHT.medium,
@@ -124,7 +132,7 @@ class CheckoutPage extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      'Tangerang',
+                      transactionData.destination.from,
                       style: TEXTSTYLES.greyTextStyle.copyWith(
                         fontWeight: FONTWEIGHT.light,
                       ),
@@ -146,7 +154,7 @@ class CheckoutPage extends StatelessWidget {
                         width: 1,
                       ),
                       Text(
-                        '4.8',
+                        transactionData.destination.rating.toString(),
                         style: TEXTSTYLES.blackTextStyle.copyWith(
                           fontWeight: FONTWEIGHT.medium,
                         ),
@@ -163,58 +171,82 @@ class CheckoutPage extends StatelessWidget {
             // NOTE : BOOKING DETAILS
 
             Text(
-              'Booking Details',
+              'Detail Pesanan',
               style: TEXTSTYLES.blackTextStyle.copyWith(
                 fontSize: 16,
                 fontWeight: FONTWEIGHT.semiBold,
               ),
             ),
+            BlocBuilder<SeatCubit, List<String>>(
+              builder: (context, seat) {
+                return BookingDetailItem(
+                  title: 'Penumpang',
+                  value: '${seat.length} Orang',
+                  valueTextStyle: TEXTSTYLES.blackTextStyle.copyWith(
+                    fontWeight: FONTWEIGHT.semiBold,
+                  ),
+                );
+              },
+            ),
             BookingDetailItem(
-              title: 'Traveler',
-              value: '2 person',
+              title: 'Kursi',
+              value: transactionData.seat,
               valueTextStyle: TEXTSTYLES.blackTextStyle.copyWith(
                 fontWeight: FONTWEIGHT.semiBold,
               ),
             ),
             BookingDetailItem(
-              title: 'Seat',
-              value: 'A3, B3',
-              valueTextStyle: TEXTSTYLES.blackTextStyle.copyWith(
-                fontWeight: FONTWEIGHT.semiBold,
-              ),
-            ),
-            BookingDetailItem(
-              title: 'Insurance',
-              value: 'YES',
-              valueTextStyle: TEXTSTYLES.greenTextStyle.copyWith(
-                fontWeight: FONTWEIGHT.semiBold,
-              ),
+              title: 'Asuransi',
+              value: transactionData.insurance == true ? 'YA' : 'TIDAK',
+              valueTextStyle: transactionData.insurance == true
+                  ? TEXTSTYLES.greenTextStyle.copyWith(
+                      fontWeight: FONTWEIGHT.semiBold,
+                    )
+                  : TEXTSTYLES.redTextStyle.copyWith(
+                      fontWeight: FONTWEIGHT.semiBold,
+                    ),
             ),
             BookingDetailItem(
               title: 'Refundable',
-              value: 'NO',
-              valueTextStyle: TEXTSTYLES.redTextStyle.copyWith(
-                fontWeight: FONTWEIGHT.semiBold,
-              ),
+              value: transactionData.refundable == true ? 'YA' : 'TIDAK',
+              valueTextStyle: transactionData.refundable == true
+                  ? TEXTSTYLES.greenTextStyle.copyWith(
+                      fontWeight: FONTWEIGHT.semiBold,
+                    )
+                  : TEXTSTYLES.redTextStyle.copyWith(
+                      fontWeight: FONTWEIGHT.semiBold,
+                    ),
             ),
             BookingDetailItem(
               title: 'VAT',
-              value: '45%',
+              value: '${(transactionData.vat * 100).toStringAsFixed(0)}%',
               valueTextStyle: TEXTSTYLES.blackTextStyle.copyWith(
                 fontWeight: FONTWEIGHT.semiBold,
               ),
             ),
             BookingDetailItem(
               title: 'Price',
-              value: 'IDR 8.500.690',
+              value: NumberFormat.currency(
+                locale: 'ID',
+                symbol: 'Rp. ',
+                decimalDigits: 0,
+              ).format(
+                transactionData.price,
+              ),
               valueTextStyle: TEXTSTYLES.blackTextStyle.copyWith(
                 fontWeight: FONTWEIGHT.semiBold,
               ),
             ),
             BookingDetailItem(
               title: 'Grand Total',
-              value: 'IDR 12.000.000',
-              valueTextStyle: TEXTSTYLES.blackTextStyle.copyWith(
+              value: NumberFormat.currency(
+                locale: 'ID',
+                symbol: 'Rp. ',
+                decimalDigits: 0,
+              ).format(
+                transactionData.grandTotal,
+              ),
+              valueTextStyle: TEXTSTYLES.primarytextStyle.copyWith(
                 fontWeight: FONTWEIGHT.semiBold,
               ),
             )
@@ -239,7 +271,7 @@ class CheckoutPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Payment Details',
+              'Detail Pembayaran',
               style: TEXTSTYLES.blackTextStyle.copyWith(
                 fontWeight: FONTWEIGHT.semiBold,
                 fontSize: 16,
@@ -292,18 +324,40 @@ class CheckoutPage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'IDR 80.400.000',
-                      style: TEXTSTYLES.blackTextStyle.copyWith(
-                        fontSize: 18,
-                        fontWeight: FONTWEIGHT.medium,
-                      ),
+                    BlocBuilder<AuthCubit, AuthState>(
+                      builder: (context, user) {
+                        if (user is AuthSuccess) {
+                          currentBalance = user.user.balance;
+
+                          return Text(
+                            NumberFormat.currency(
+                              locale: 'ID',
+                              symbol: 'Rp. ',
+                              decimalDigits: 0,
+                            ).format(
+                              user.user.balance,
+                            ),
+                            style: TEXTSTYLES.blackTextStyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: FONTWEIGHT.medium,
+                            ),
+                          );
+                        } else {
+                          return Text(
+                            '-',
+                            style: TEXTSTYLES.blackTextStyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: FONTWEIGHT.medium,
+                            ),
+                          );
+                        }
+                      },
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
-                      'Current Balance',
+                      'Saldo Anda',
                       style: TEXTSTYLES.greyTextStyle.copyWith(
                         fontWeight: FONTWEIGHT.light,
                       ),
@@ -325,14 +379,16 @@ class CheckoutPage extends StatelessWidget {
             // NOTE : PAY BUTTON
 
             PrimaryButton(
-              title: 'Pay Now',
+              title: 'Bayar Sekarang',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const BookedPage(),
-                  ),
-                );
+                if ((currentBalance ?? 0) < transactionData.grandTotal) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: const Text('Saldo anda saat ini tidak cukup!'),
+                    backgroundColor: COLORS.redColor,
+                  ));
+                } else {
+                  Navigator.pushNamed(context, '/booked');
+                }
               },
             ),
             const SizedBox(
@@ -341,19 +397,19 @@ class CheckoutPage extends StatelessWidget {
 
             // NOTE : TAC BUTTON
 
-            SizedBox(
-              width: double.infinity,
-              child: Center(
-                child: Text(
-                  'Term and Condition',
-                  style: TEXTSTYLES.greyTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: FONTWEIGHT.light,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   width: double.infinity,
+            //   child: Center(
+            //     child: Text(
+            //       'Term and Condition',
+            //       style: TEXTSTYLES.greyTextStyle.copyWith(
+            //         fontSize: 16,
+            //         fontWeight: FONTWEIGHT.light,
+            //         decoration: TextDecoration.underline,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       );

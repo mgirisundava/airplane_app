@@ -3,6 +3,8 @@ import 'package:airplane_app/cubit/destinations/destination_cubit.dart';
 import 'package:airplane_app/cubit/seat/seat_cubit.dart';
 import 'package:airplane_app/page/page_cubit.dart';
 import 'package:airplane_app/ui/pages/bonus_page.dart';
+import 'package:airplane_app/ui/pages/booked_page.dart';
+import 'package:airplane_app/ui/pages/checkout_page.dart';
 import 'package:airplane_app/ui/pages/choose_seat_page.dart';
 import 'package:airplane_app/ui/pages/detail_page.dart';
 import 'package:airplane_app/ui/pages/get_started_page.dart';
@@ -47,6 +49,8 @@ class MyApp extends StatelessWidget {
           '/detail_destination': (context) => const DetailPage(),
           '/photo': (context) => const PhotoPage(),
           '/choose_seat': (context) => const ChooseSeatPage(),
+          '/checkout': (context) => const CheckoutPage(),
+          '/booked': (context) => const BookedPage(),
         },
         initialRoute: '/',
       ),
