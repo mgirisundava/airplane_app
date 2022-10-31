@@ -388,9 +388,26 @@ class CheckoutPage extends StatelessWidget {
                     backgroundColor: COLORS.redColor,
                   ));
                 } else {
-                  context
-                      .read<TransactionCubit>()
-                      .createTransaction(transactionData);
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Konfirmasi'),
+                      content: const Text('Apakah pesanan sudah sesuai?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'BELUM'),
+                          child: const Text('BELUM'),
+                        ),
+                        TextButton(
+                          onPressed: () => context
+                              .read<TransactionCubit>()
+                              .createTransaction(transactionData),
+                          child: const Text('SUDAH'),
+                        ),
+                      ],
+                    ),
+                  );
+
                   // Navigator.pushNamed(context, '/booked');
                 }
               },

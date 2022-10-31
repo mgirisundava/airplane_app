@@ -23,5 +23,5 @@ class SeatCubit extends Cubit<List<String>> {
 
   removeAllSeat() {
     state.clear();
-  }
+   }
 }

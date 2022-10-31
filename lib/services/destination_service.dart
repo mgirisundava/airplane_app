@@ -11,16 +11,19 @@ class DestinationService {
     try {
       QuerySnapshot _res = await _destinationReference.get();
       List<DestinationModel> _destinations = _res.docs.map((e) {
-        return DestinationModel(
-          id: e.id,
-          name: e['name'] ?? '',
-          from: e['from'] ?? '',
-          imageUrl: e['imageUrl'] ?? '',
-          price: e['price'] ?? 0,
-          rating: e['rating'] ?? 0.0,
-          about: e['about'] ?? '',
-          destinationPhotos: e['destination_photos'] ?? [],
-        );
+        return
+            // DestinationModel(
+            //   id: e.id,
+            //   name: e['name'] ?? '',
+            //   from: e['from'] ?? '',
+            //   imageUrl: e['imageUrl'] ?? '',
+            //   price: e['price'] ?? 0,
+            //   rating: e['rating'] ?? 0.0,
+            //   about: e['about'] ?? '',
+            //   destinationPhotos: e['destination_photos'] ?? [],
+            // );
+
+            DestinationModel.fromJson(e.id, e.data() as Map<String, dynamic>);
       }).toList();
 
       return _destinations;

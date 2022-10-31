@@ -1,13 +1,11 @@
 import 'package:airplane_app/core/colors.dart';
 import 'package:airplane_app/core/fonts.dart';
 import 'package:airplane_app/cubit/seat/seat_cubit.dart';
-import 'package:airplane_app/ui/pages/main_page.dart';
 import 'package:airplane_app/ui/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/images.dart';
-import '../../page/page_cubit.dart';
 
 class BookedPage extends StatelessWidget {
   const BookedPage({Key? key}) : super(key: key);
@@ -48,7 +46,7 @@ class BookedPage extends StatelessWidget {
                 ),
               ),
               Text(
-                'Well Booked 😍',
+                'Transaksi Berhasil 😍',
                 style: TEXTSTYLES.blackTextStyle.copyWith(
                   fontSize: 32,
                   fontWeight: FONTWEIGHT.semiBold,
@@ -58,7 +56,7 @@ class BookedPage extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'Are you ready to explore the new\nworld of experiences?',
+                'Apakah kamu siap untuk mendapatkan\npengalaman menjelajah dunia baru?',
                 style: TEXTSTYLES.greyTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: FONTWEIGHT.light,
@@ -69,16 +67,11 @@ class BookedPage extends StatelessWidget {
                 height: 50,
               ),
               PrimaryButton(
-                title: 'My Bookings',
+                title: 'Kembali',
                 width: 220,
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MainPage(),
-                      ),
-                      (route) => false);
-                  context.read<PageCubit>().setPage(1);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/main', (route) => false);
                   context.read<SeatCubit>().removeAllSeat();
                 },
               ),

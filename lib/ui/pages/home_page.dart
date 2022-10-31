@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                   return ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 1,
+                      itemCount: data.length,
                       itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(
